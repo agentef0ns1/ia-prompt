@@ -6,7 +6,7 @@ Combina **plantillas determinísticas** (estructura fijada por código) con **en
 
 ## Video demo
 
-[WebUI](./image.png)
+![WebUI](./image.png)
 [![Demo ia-prompt en YouTube](https://img.shields.io/badge/YouTube-Demo-red?style=for-the-badge&logo=youtube)](https://youtu.be/PrPnJIvInmw)
 
 [Ver en YouTube → ia-prompt: divide y vencerás para IAs locales](https://youtu.be/PrPnJIvInmw)
