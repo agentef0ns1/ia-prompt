@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ia-prompt WebUI</title>
+  <link rel="stylesheet" href="/static/style.css?v=3" />
+</head>
+<body>
+  <div class="app">
+    <header>
+      <h1>ia-prompt</h1>
+      <p class="subtitle">Genera prompts para Cline/Continue — estructura fijada por código, enriquecimiento opcional vía LLM</p>
+    </header>
+
+    <main class="layout">
+      <!-- Izquierda: opciones -->
+      <aside class="panel options-panel">
+        <h2>Opciones</h2>
+        <p class="help">Configura el agente destino y el formato de salida antes de Generate.</p>
+
+        <fieldset>
+          <legend>Formato de salida</legend>
+          <p class="help-sm">Cómo entregar los prompts al agente.</p>
+          <div id="output-format" class="radio-group"></div>
+          <div id="profile-wrap" class="sub-option">
+            <label>
+              Perfil (solo subtareas)
+              <select id="profile" title="full: research→scaffold→implement→verify→finalize">
+                <option value="">Automático</option>
+                <option value="full">full — 5 fases</option>
+                <option value="with_urls">with_urls — 3 fases</option>
+                <option value="simple">simple — 2 fases</option>
+              </select>
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Enriquecimiento LLM</legend>
+          <p class="help-sm">El LLM mejora el texto; la estructura la define el código.</p>
+          <div id="enhance-yesno" class="radio-group"></div>
+        </fieldset>
+
+        <label>
+          Agente destino
+          <select id="agent"></select>
+        </label>
+
+        <label class="model-row">
+          Modelo agente (Cline)
+          <div class="inline-actions">
+            <select id="target-model">
+              <option value="">Automático</option>
+            </select>
+            <button type="button" id="btn-refresh-target" class="btn-icon" title="Actualizar desde Ollama">↻</button>
+          </div>
+        </label>
+
+        <fieldset>
+          <legend>Skills</legend>
+          <p class="help-sm">Selecciona una o varias. Vacío = automático. `local-agent-persistence` se añade siempre.</p>
+          <div id="skills" class="checkbox-group"></div>
+        </fieldset>
+
+        <label>
+          Context limit
+          <input type="number" id="context-limit" value="32768" min="4096" max="131072" step="1024" />
+        </label>
+      </aside>
+
+      <!-- Centro: objetivo + servidor LLM -->
+      <section class="panel main-panel">
+        <h2>Objetivo</h2>
+        <p class="help">Describe la tarea. Incluye URLs de documentación si aplica.</p>
+        <textarea id="objective" rows="10" placeholder="Ej: Implementar dos agentes A2A con SDK https://github.com/a2aproject/a2a-python ..."></textarea>
+
+        <fieldset class="server-block">
+          <legend>Servidor Ollama (meta-prompting + modelos)</legend>
+          <p class="help-sm">URL base del servidor. Se consulta <code>/v1/models</code> para listar modelos instalados.</p>
+          <label>
+            URL API
+            <div class="inline-actions">
+              <input type="url" id="enhance-api-base" placeholder="http://192.168.1.43:11434" />
+              <button type="button" id="btn-refresh-models" class="btn-icon" title="Cargar modelos">↻</button>
+            </div>
+          </label>
+          <label id="enhance-model-wrap" class="hidden">
+            Modelo para enriquecer prompts
+            <select id="enhance-model"></select>
+          </label>
+          <div id="models-status" class="models-status"></div>
+        </fieldset>
+
+        <div class="actions">
+          <button type="button" id="btn-analyze" class="btn secondary">Analyze</button>
+          <button type="button" id="btn-generate" class="btn primary">Generate</button>
+        </div>
+      </section>
+
+      <!-- Derecha: resultados -->
+      <section class="panel results-panel">
+        <h2>Resultados</h2>
+        <div id="status" class="status idle">Escribe un objetivo y pulsa Analyze o Generate.</div>
+        <div id="analysis-result" class="result-block hidden"></div>
+        <div id="generate-result" class="result-block hidden">
+          <div id="metadata" class="metadata"></div>
+          <div id="warnings" class="warnings"></div>
+          <div id="file-list" class="file-list"></div>
+          <div class="download-actions hidden" id="download-actions">
+            <button type="button" id="btn-download-zip" class="btn primary">Descargar ZIP</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="/static/app.js?v=3"></script>
+</body>
+</html>

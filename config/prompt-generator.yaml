@@ -1,0 +1,26 @@
+prompt_generator:
+  provider: ollama
+  model: qwen2.5-coder:14b
+  api_base: "http://192.168.1.43:11434"
+  fallback_model: gemma3:12b
+  temperature: 0.3
+  max_tokens: 8192
+  max_tokens_cap: 16384
+  num_ctx_min: 8192
+  num_ctx_max: 32768
+  auto_enhance_threshold: complex
+  timeout_seconds: 300
+
+agent_message:
+  secondary_ollama_model: laguna-xs-2.1:q4_K_M
+  default_multi_agent_stack: ollama_only
+  research_fetch_limit: 3
+  sequential_default: true
+  sequential_enhance_index: false
+
+validation:
+  required_sections:
+    - "criterios de éxito"
+    - "skill"
+    - "persistencia"
+  min_length_chars: 200
