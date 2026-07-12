@@ -133,5 +133,4 @@ Abre http://127.0.0.1:8765
 ## Documentación
 
 - [Arquitectura y módulos](docs/arquitectura.md)
-- [Troubleshooting](../docs/troubleshooting-tools.md) (stack completo)
-- [Documentación web](../docs/documentacion-web.md)
+
